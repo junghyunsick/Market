@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
-            android:text="재궁동"
+            android:text="내배캠동"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
