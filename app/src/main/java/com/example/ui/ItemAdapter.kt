@@ -42,7 +42,15 @@ class ItemAdapter(val mItems: MutableList<SaleItem>) : RecyclerView.Adapter<Item
         holder.binding.tvAddress.text = mItems[position].Address
         holder.binding.tvPrice.text = mItems[position].Price.toString()
         holder.binding.tvChatCnt.text = mItems[position].ChatCnt.toString()
+
+    if (mItems[position].isLike)
+        holder.ivAdapterLike.setImageResource(R.drawable.img_like2)
+    else
+        holder.ivAdapterLike.setImageResource(R.drawable.img_like)
     }
+
+
+
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
@@ -52,5 +60,14 @@ class ItemAdapter(val mItems: MutableList<SaleItem>) : RecyclerView.Adapter<Item
         return mItems.size
     }
 
-    inner class Holder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class Holder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root){
+        val ivAdapterLike = binding.ivLike
+        val itemImageView = binding.iconItem
+        val tvitemTitle = binding.tvItemTitle
+        val tvAddress = binding.tvAddress
+        val tvPrice = binding.tvPrice
+        val tvItemChat = binding.tvChatCnt
+        val tvItemLike = binding.tvLikeCnt
+
+    }
 }

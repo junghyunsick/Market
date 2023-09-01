@@ -12,7 +12,9 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AlphaAnimation
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
                 intent.putExtra(Constants.ITEM_INDEX, position)
                 intent.putExtra(Constants.ITEM_OBJECT, dataList[position])
-                startActivity(intent)
+                activityResultLauncher.launch(intent)
             }
         }
 
@@ -102,6 +104,23 @@ class MainActivity : AppCompatActivity() {
         binding.imageView5.setOnClickListener {
 
             notification()
+        }
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (it.resultCode == RESULT_OK){
+                val itemIndex = it.data?.getIntExtra("itemIndex", 0) as Int
+                val isLike = it.data?.getBooleanExtra("isLike", false) as Boolean
+
+                if(isLike){
+                    dataList[itemIndex].isLike = true
+                    dataList[itemIndex].InterestCnt += 1
+                }else{
+                    if (dataList[itemIndex].isLike) {
+                        dataList[itemIndex].isLike = false
+                        dataList[itemIndex].InterestCnt -= 1
+                    }
+                }
+                adapter.notifyItemChanged(itemIndex)
+            }
         }
     }
 
